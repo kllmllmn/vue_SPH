@@ -1,5 +1,10 @@
 <template>
-  <div id="app"><Header></Header> <Footer></Footer></div>
+  <div id="app">
+    <Header></Header>
+    <!-- 路由出口 -->
+    <router-view></router-view>
+    <Footer v-show="$route.meta.isShow"></Footer>
+  </div>
 </template>
 
 <script>

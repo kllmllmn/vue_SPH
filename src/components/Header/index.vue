@@ -8,8 +8,9 @@
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a>
+            <!-- 把a换成router-link -->
+            <router-link to="/login">登录</router-link>
+            <router-link to="/register" class="register">免费注册</router-link>
           </p>
         </div>
         <div class="typeList">
@@ -27,9 +28,10 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <a class="logo" title="尚品汇" href="###" target="_blank">
+        <!-- 把a换成router-link -->
+        <router-link class="logo" title="尚品汇" to="/home">
           <img src="./images/logo.png" alt="" />
-        </a>
+        </router-link>
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
@@ -37,8 +39,14 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="searchValue"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button">
+          <!-- 编程式路由导航 -->
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="search(searchValue)"
+          >
             搜索
           </button>
         </form>
@@ -50,6 +58,34 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      searchValue: "",
+    };
+  },
+  methods: {
+    search(searchValue) {
+      // query传参：字符串写法（有?）
+      // this.$router.push("/search" + "?value=" + searchValue);
+      // query传参：模板字符串写法（有?）
+      // this.$router.push(`/search?value=${searchValue}`);
+      // query传参：对象写法
+      /* this.$router.push({
+        name: "search",
+        query: {
+          value: searchValue,
+        },
+      }); */
+      // params传参：对象写法
+      this.$router.push({
+        name: "search",
+        params: {
+          // value: "" || undefined, //params参数可传可不传时，如果传空串，需要逻辑或undefined解决路径问题
+          value: searchValue,
+        },
+      });
+    },
+  },
 };
 </script>
 
