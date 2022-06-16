@@ -77,12 +77,14 @@ export default {
         },
       }); */
       // params传参：对象写法
+
       this.$router.push({
         name: "search",
         params: {
-          // value: "" || undefined, //params参数可传可不传时，如果传空串，需要逻辑或undefined解决路径问题
-          value: searchValue,
+          value: searchValue || undefined, //params参数可传可不传时，如果传空串，需要逻辑或undefined解决路径问题
+          // value: searchValue,
         },
+        query: this.$route.query,
       });
     },
   },

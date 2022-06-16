@@ -33,9 +33,9 @@ const router = new VueRouter({
     },
     {
       name: "search",
-      path: "/search", //query传参，不写占位符
+      // path: "/search", //query传参，不写占位符
       // path: "/search/:value", //params传参，写占位符
-      // path: "/search/:value?", //params传参，写占位符,?表示params参数可传可不传
+      path: "/search/:value?", //params传参，写占位符,?表示params参数可传可不传
       component: Search,
       meta: { isShow: true },
     },

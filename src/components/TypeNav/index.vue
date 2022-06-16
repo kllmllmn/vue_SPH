@@ -3,58 +3,65 @@
   <div class="type-nav">
     <div class="container">
       <!-- 利用事件委托，mouseenter与mouseleave不冒泡，mouseover与mouseout冒泡 -->
-      <div @mouseleave="leave">
+      <div @mouseleave="leave" @mouseenter="enter">
         <h2 class="all">全部商品分类</h2>
-        <div class="sort">
-          <!-- 事件委派 -->
-          <div class="all-sort-list2" @click="goSearch">
-            <!-- 三级分类数据展示 -->
-            <div
-              class="item"
-              v-for="(c1, index) in categoryList"
-              :key="c1.categoryId"
-            >
-              <h3
-                @mouseenter="changeIndex(index)"
-                :class="{ cur: currentIndex === index }"
-              >
-                <!-- 自定义属性 -->
-                <a
-                  :data-categoryName="c1.categoryName"
-                  :data-category1Id="c1.categoryId"
-                  >{{ c1.categoryName }}</a
-                >
-              </h3>
-              <!-- 二三级分类展示 -->
-              <div class="item-list clearfix" :style="displayObject(index)">
+        <template>
+          <el-collapse-transition>
+            <div class="sort" v-show="show">
+              <!-- 事件委派 -->
+              <div class="all-sort-list2" @click="goSearch">
+                <!-- 三级分类数据展示 -->
                 <div
-                  class="subitem"
-                  v-for="c2 in c1.categoryChild"
-                  :key="c2.categoryId"
+                  class="item"
+                  v-for="(c1, index) in categoryList"
+                  :key="c1.categoryId"
                 >
-                  <dl class="fore">
-                    <dt>
-                      <a
-                        :data-categoryName="c1.categoryName"
-                        :data-category2Id="c2.categoryId"
-                        >{{ c2.categoryName }}</a
-                      >
-                    </dt>
-                    <dd>
-                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                        <a
-                          :data-categoryName="c1.categoryName"
-                          :data-category3Id="c3.categoryId"
-                          >{{ c3.categoryName }}</a
-                        >
-                      </em>
-                    </dd>
-                  </dl>
+                  <h3
+                    @mouseenter="changeIndex(index)"
+                    :class="{ cur: currentIndex === index }"
+                  >
+                    <!-- 自定义属性 -->
+                    <a
+                      :data-categoryName="c1.categoryName"
+                      :data-category1Id="c1.categoryId"
+                      >{{ c1.categoryName }}</a
+                    >
+                  </h3>
+                  <!-- 二三级分类展示 -->
+                  <div class="item-list clearfix" :style="displayObject(index)">
+                    <div
+                      class="subitem"
+                      v-for="c2 in c1.categoryChild"
+                      :key="c2.categoryId"
+                    >
+                      <dl class="fore">
+                        <dt>
+                          <a
+                            :data-categoryName="c1.categoryName"
+                            :data-category2Id="c2.categoryId"
+                            >{{ c2.categoryName }}</a
+                          >
+                        </dt>
+                        <dd>
+                          <em
+                            v-for="c3 in c2.categoryChild"
+                            :key="c3.categoryId"
+                          >
+                            <a
+                              :data-categoryName="c1.categoryName"
+                              :data-category3Id="c3.categoryId"
+                              >{{ c3.categoryName }}</a
+                            >
+                          </em>
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </el-collapse-transition>
+        </template>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -83,12 +90,16 @@ export default {
   data() {
     return {
       currentIndex: -1,
+      show: true,
     };
   },
   mounted() {
-    console.log(this);
-
+    // console.log(this);
     // console.log(_);
+
+    if (this.$route.path != "/home") {
+      this.show = false;
+    } else this.show = true;
   },
   methods: {
     /* changeIndex(index) {
@@ -100,7 +111,15 @@ export default {
       this.currentIndex = index;
     }, 50),
     leave() {
+      if (this.$route.path != "/home") {
+        this.show = false;
+      }
       this.currentIndex = -1;
+    },
+    enter() {
+      if (this.$route.path != "/home") {
+        this.show = true;
+      }
     },
     displayObject(index) {
       return { display: this.currentIndex === index ? "block" : "none" };
@@ -128,8 +147,10 @@ export default {
           query.category3Id = category3id;
         }
         location.query = query;
-
-        // this.$router.push("/search");
+        // 合并参数
+        if (this.$route.params) {
+          location.params = this.$route.params;
+        }
         this.$router.push(location);
       }
     },
@@ -184,6 +205,18 @@ export default {
       position: absolute;
       background: #fafafa;
       z-index: 999;
+      .transition-box {
+        margin-bottom: 10px;
+        width: 200px;
+        height: 100px;
+        border-radius: 4px;
+        background-color: #409eff;
+        text-align: center;
+        color: #fff;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        margin-right: 20px;
+      }
 
       .all-sort-list2 {
         .cur {
