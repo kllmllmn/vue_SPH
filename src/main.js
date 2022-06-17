@@ -5,6 +5,9 @@ import TypeNav from "./components/TypeNav";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import store from "./store";
+
+import "@/mock/mockServe";
+import "swiper/css/swiper.css";
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
@@ -21,5 +24,6 @@ new Vue({
     // 通知Vuex向服务器发请求，获取数据，存储到仓库中
     // 使用vuex模块化，方法的参数会有所改变！！！！！！
     this.$store.dispatch("home/categoryList"); //三级列表优化，考虑性能，路由跳转时不会重复请求categoryList，vm(与根组件的mounted)只执行一次
+    this.$store.dispatch("home/getBannerList");
   },
 }).$mount("#app");

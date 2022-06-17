@@ -6,8 +6,12 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/home/banner1.jpg" />
+            <div
+              class="swiper-slide"
+              v-for="(carousel, index) in bannerList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
             <!-- <div class="swiper-slide">
               <img src="./images/home/banner2.jpg" />
@@ -101,8 +105,36 @@
 </template>
 
 <script>
+// swiper实现轮播图
+import Swiper from "swiper";
+import { mapState } from "vuex";
 export default {
   name: "ListContainer",
+  computed: {
+    ...mapState("home", ["bannerList"]),
+  },
+  mounted() {
+    // 获取轮播图的数据需要异步发请求，不能将new Swiper实例直接写在mounted中
+    // 要想在mounted中实现，需要设置定时器，等获取bannerList的数据后再实例化Swiper
+    setTimeout(() => {
+      var mySwiper = new Swiper(".swiper-container", {
+        loop: true, // 循环模式选项
+
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true, //可以点击小点
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    }, 1000);
+  },
+  nextTick() {},
 };
 </script>
 
