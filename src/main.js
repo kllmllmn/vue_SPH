@@ -25,5 +25,6 @@ new Vue({
     // 使用vuex模块化，方法的参数会有所改变！！！！！！
     this.$store.dispatch("home/categoryList"); //三级列表优化，考虑性能，路由跳转时不会重复请求categoryList，vm(与根组件的mounted)只执行一次
     this.$store.dispatch("home/getBannerList");
+    this.$store.dispatch("home/getFloorList");
   },
 }).$mount("#app");

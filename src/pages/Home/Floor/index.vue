@@ -45,25 +45,30 @@
               <img src="./images/home/floor-1-1.png" />
             </div>
             <div class="floorBanner">
-              <div class="swiper-container" id="floor1Swiper">
+              <!-- element-ui实现轮播图 -->
+              <template>
+                <el-carousel :interval="4000" type="card" height="200px">
+                  <el-carousel-item v-for="item in carouselList" :key="item.id">
+                    <!-- <h3 class="medium">{{ 1 }}</h3> -->
+                    <img :src="item.imgUrl" />
+                  </el-carousel-item>
+                </el-carousel>
+              </template>
+
+              <!-- <div class="swiper-container" id="floor1Swiper">
                 <div class="swiper-wrapper">
                   <div class="swiper-slide">
                     <img src="./images/home/floor-1-b01.png" />
                   </div>
-                  <!-- <div class="swiper-slide">
-                    <img src="./images/home/floor-1-b02.png" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img src="./images/home/floor-1-b03.png" />
-                  </div> -->
+                  
                 </div>
-                <!-- 如果需要分页器 -->
+                
                 <div class="swiper-pagination"></div>
 
-                <!-- 如果需要导航按钮 -->
+                
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-              </div>
+              </div> -->
             </div>
             <div class="split">
               <span class="floor-x-line"></span>
@@ -94,8 +99,25 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Floor",
+  data() {
+    return {
+      carouselList: [],
+    };
+  },
+  computed: {
+    ...mapState("home", ["floorList"]),
+  },
+  watch: {
+    floorList: {
+      handler() {
+        // carouselList需要在获取到floorList之后再在floorList对象中查找赋值
+        this.carouselList = this.floorList[0].carouselList;
+      },
+    },
+  },
 };
 </script>
 
@@ -194,6 +216,22 @@ export default {
           .floorBanner {
             width: 330px;
             height: 100%;
+
+            .el-carousel__item img {
+              color: #475669;
+              font-size: 14px;
+              opacity: 0.75;
+              line-height: 200px;
+              margin: 0;
+            }
+
+            .el-carousel__item:nth-child(2n) {
+              background-color: #99a9bf;
+            }
+
+            .el-carousel__item:nth-child(2n + 1) {
+              background-color: #d3dce6;
+            }
           }
 
           .split {

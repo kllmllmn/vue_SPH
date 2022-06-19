@@ -11,3 +11,6 @@ export const reqCategoryList = () =>
 
 // 获取banner
 export const reqGetBannerList = () => mockService.get("/banners");
+
+// 获取floor
+export const reqGetFloorList = () => mockService.get("/floors");
