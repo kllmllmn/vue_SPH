@@ -116,7 +116,7 @@ export default {
   mounted() {
     // 获取轮播图的数据需要异步发请求，不能将new Swiper实例直接写在mounted中
     // 要想在mounted中实现，需要设置定时器，等获取bannerList的数据后再实例化Swiper
-    setTimeout(() => {
+    /* setTimeout(() => {
       var mySwiper = new Swiper(".swiper-container", {
         loop: true, // 循环模式选项
 
@@ -132,9 +132,32 @@ export default {
           prevEl: ".swiper-button-prev",
         },
       });
-    }, 1000);
+    }, 1000); */
   },
-  nextTick() {},
+  watch: {
+    bannerList: {
+      handler() {
+        // 立即出现轮播图
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(".swiper-container", {
+            loop: true, // 循环模式选项
+
+            // 如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true, //可以点击小点
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+        });
+      },
+    },
+  },
 };
 </script>
 
