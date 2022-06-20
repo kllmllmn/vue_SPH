@@ -4,7 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
             <div
               class="swiper-slide"
@@ -139,7 +139,8 @@ export default {
       handler() {
         // 立即出现轮播图
         this.$nextTick(() => {
-          var mySwiper = new Swiper(".swiper-container", {
+          // 使用ref获取绑定的容器，避免直接操作DOM
+          var mySwiper = new Swiper(this.$refs.mySwiper, {
             loop: true, // 循环模式选项
 
             // 如果需要分页器
